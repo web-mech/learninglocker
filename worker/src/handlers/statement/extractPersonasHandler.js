@@ -3,6 +3,7 @@ import Promise from 'bluebird';
 import Persona from 'lib/models/persona';
 import LRS from 'lib/models/lrs';
 import async from 'async';
+import logger from 'lib/logger';
 import PersonaFinder from 'lib/classes/PersonaFinder';
 import wrapHandlerForStatement from 'worker/handlers/statement/wrapHandlerForStatement';
 import { STATEMENT_EXTRACT_PERSONAS_QUEUE } from 'lib/constants/statements';
@@ -94,6 +95,7 @@ export const mergeSimilarPeople = (person, cb) => {
 };
 
 const handleStatement = (statement) => {
+  logger.debug(`Handling statement ${JSON.stringify(statement)}`);
   const personaFinder = new PersonaFinder();
   return Promise.promisify(personaFinder.processStatementForPersona)(statement);
 };

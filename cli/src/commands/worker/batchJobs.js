@@ -45,6 +45,6 @@ export default function (options) {
     }
   }
 
-  logger.info(`Batch handlings jobs for ${jobType} with batch size of ${batchSize}`);
+  logger.info(`Batch handling jobs for ${jobType} with batch size of ${batchSize}`);
   batcher(query, jobType, batchSize);
 }

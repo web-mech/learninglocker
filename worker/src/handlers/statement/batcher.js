@@ -46,7 +46,10 @@ export default function (query, jobType, batchSize = 1000) {
   const statementStream = highland(Statement.find(query).lean().batchSize(batchSize).cursor());
 
   const handler = statementStream.batch(Number(batchSize)).flatMap((statements) => {
-    const updateIDs = map(statements, statement => statement._id);
+    const updateIDs = map(statements, (statement) => {
+      logger.info(`Got statement ID ${statement._id}`);
+      return statement._id;
+    });
 
     const promise = handleJob(statements).catch((err) => {
       logger.error(err);
