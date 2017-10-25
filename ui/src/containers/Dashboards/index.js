@@ -17,11 +17,12 @@ const renderSpinner = () => (
   </div>
 );
 
-const renderDashboard = params => (model, index) => (
-  <Tab key={index} label={model.get('title', `Dashboard ${index + 1}`)}>
-    <Dashboard id={model.get('_id')} params={params} />
-  </Tab>
-);
+const renderDashboard = params => (model, index) =>
+  (
+    <Tab key={index} label={model.get('title', `Dashboard ${index + 1}`)}>
+      <Dashboard id={model.get('_id')} params={params} />
+    </Tab>
+  );
 
 const enhance = compose(
   connect(
@@ -32,7 +33,14 @@ const enhance = compose(
     }),
     { navigateTo: actions.navigateTo }
   ),
-  withProps({ schema: 'dashboard', filter: new Map() }),
+  withProps(({ params }) => ({
+    schema: 'dashboard',
+    filter: new Map({}),
+    cursor: new Map({
+      afterId: params.dashboardId,
+    }),
+    includeBeforeAfter: true,
+  })),
   withModels,
   withHandlers({
     pushRoute: ({ navigateTo, params: { organisationId } }) => (dashboardId) => {

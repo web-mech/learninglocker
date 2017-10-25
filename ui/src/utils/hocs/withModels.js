@@ -22,9 +22,24 @@ export default (WrappedComponent) => {
     componentWillReceiveProps = nextProps =>
       this.fetchModels(nextProps);
 
-    fetchModels = ({ schema, filter, sort, first }) => {
+    fetchModels = ({
+      schema,
+      filter,
+      sort,
+      first,
+      cursor,
+      includeBeforeAfter
+    }) => {
       if (filter) {
-        this.props.fetchAllOutstandingModels({ schema, filter, sort, first })
+        this.props
+          .fetchAllOutstandingModels({
+            schema,
+            filter,
+            sort,
+            first,
+            cursor,
+            includeBeforeAfter
+          })
           .catch((err) => {
             console.error(err);
           });

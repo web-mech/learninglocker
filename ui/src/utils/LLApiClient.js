@@ -96,11 +96,20 @@ class _LLApiClient {
     }
   });
 
-  getConnection = ({ schema, filter, sort, cursor, first, last }) => {
+  getConnection = ({
+    schema,
+    filter,
+    sort,
+    cursor, // {[before: ...], [after: ...], [beforeId: ...], [afterId: ...]}
+    includeBeforeAfter,
+    first,
+    last
+  }) => {
     const queryParams = {
       filter: JSON.stringify(filter),
       sort: JSON.stringify(sort),
       ...cursor,
+      includeBeforeAfter
     };
 
     if (first) queryParams.first = first;

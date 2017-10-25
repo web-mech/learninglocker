@@ -14,6 +14,9 @@ export default model =>
     const last = getFromQuery(req, 'last', undefined, parseInt);
     const authInfo = getAuthFromRequest(req);
 
+    const { afterId, beforeId } = req.query;
+    const { includeBeforeAfter } = req.query;
+
     const connection = await model.getConnection({
       authInfo,
       filter,
@@ -21,6 +24,9 @@ export default model =>
       before,
       after,
       first,
+      afterId,
+      beforeId,
+      includeBeforeAfter,
       last,
       hint,
       project

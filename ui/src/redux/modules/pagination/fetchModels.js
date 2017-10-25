@@ -1,6 +1,6 @@
 import { Map, fromJS, OrderedSet, Iterable, OrderedMap } from 'immutable';
 import { createSelector } from 'reselect';
-import { map } from 'lodash';
+import { map, isUndefined } from 'lodash';
 import moment from 'moment';
 import { put, call } from 'redux-saga/effects';
 import { handleActions } from 'redux-actions';
@@ -192,7 +192,8 @@ const fetchModels = createAsyncDuck({
       direction,
       first,
       last,
-      cursor
+      cursor, 
+      includeBeforeAfter
     }
   ) => ({
     schema,
@@ -201,7 +202,8 @@ const fetchModels = createAsyncDuck({
     direction,
     first,
     last,
-    cursor
+    cursor,
+    includeBeforeAfter
   }),
 
   successAction: ({
@@ -238,6 +240,7 @@ const fetchModels = createAsyncDuck({
     sort,
     direction,
     cursor,
+    includeBeforeAfter,
     llClient,
     first,
     last
@@ -252,6 +255,7 @@ const fetchModels = createAsyncDuck({
       filter: plainFilter,
       sort: plainSort,
       cursor: plainCursor,
+      includeBeforeAfter,
       first,
       last
     });
@@ -286,14 +290,24 @@ const fetchAllOutstandingModels = ({
   first,
   last,
   cursor,
+  includeBeforeAfter,
   fetchModelsStart = fetchModels.actions.start // whilst waiting for https://github.com/facebook/jest/issues/3608 to be fixed
 }) => ((dispatch, getState) => {
   const oldState = getState();
 
-  const fetchStateRecurse = (cursor2) => {
+  const fetchStateRecurse = (cursor2, includeBeforeAfter2) => {
     const result = dispatch(
         fetchModelsStart(
-          { schema, filter, sort, direction, first, last, cursor: cursor2 }
+          {
+            schema,
+            filter,
+            sort,
+            direction,
+            first,
+            last,
+            cursor: cursor2,
+            includeBeforeAfter: includeBeforeAfter2,
+          }
         )
       );
 
@@ -325,7 +339,10 @@ const fetchAllOutstandingModels = ({
         oldEdges.map(item => item.get('cursor'))
           .butLast().contains(lastCursor)
       ) {
-        return fetchStateRecurse(new Map({ after: lastCursor }));
+        return fetchStateRecurse(
+          new Map({ after: lastCursor }),
+          false
+        );
       }
     });
 
@@ -333,7 +350,7 @@ const fetchAllOutstandingModels = ({
     return allPromise;
   };
 
-  return fetchStateRecurse(cursor);
+  return fetchStateRecurse(cursor, includeBeforeAfter);
 });
 
 const fetchMore = ({
