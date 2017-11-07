@@ -1,5 +1,6 @@
 import { OrderedMap } from 'immutable';
+import personas from './personas';
 
 
-export default new OrderedMap();
-//  .set('[file-name]', {up: () => {}, down: () => {}})
+export default new OrderedMap()
+  .set('personas', personas);

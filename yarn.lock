@@ -4753,7 +4753,7 @@ hide-powered-by@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/hide-powered-by/-/hide-powered-by-1.0.0.tgz#4a85ad65881f62857fc70af7174a1184dccce32b"
 
-highland@^2.8.1:
+highland@^2.11.1:
   version "2.11.1"
   resolved "https://registry.yarnpkg.com/highland/-/highland-2.11.1.tgz#39b4d9299b6e07da3d15e7af7b2a6f127522acaf"
   dependencies:

@@ -97,7 +97,7 @@
     "file-stream-rotator": "^0.0.6",
     "git-rev": "^0.2.1",
     "helmet": "^2.1.1",
-    "highland": "^2.8.1",
+    "highland": "^2.11.1",
     "hoist-non-react-statics": "^1.0.3",
     "html-to-text": "^2.1.0",
     "http-proxy": "^1.12.0",
