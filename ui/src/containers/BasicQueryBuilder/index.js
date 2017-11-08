@@ -21,6 +21,7 @@ const enhance = compose(
 
 const render = ({ componentPath, defaults, query, onQueryChange }) => {
   const criteria = getCriteria(query);
+  console.log('101');
   return (
     <QueryBuilderSections
       componentPath={componentPath}

@@ -89,7 +89,8 @@ export const operators = {
   DISCRETE: 'discrete',
   CONTINUOUS: 'continuous',
   RANGE: 'range',
-  BOOLEAN: 'boolean'
+  BOOLEAN: 'boolean',
+  PERSONA_ATTRIBUTES: 'persona_attributes'
 };
 
 const isChildKey = needle => (haystack) => {
@@ -123,29 +124,38 @@ export const initialSections = fromJS({
     children: {
       indentifiers: {
         title: 'Additional Data',
+        operators: operators.PERSONA_ATTRIBUTES,
         childGenerators: new List([
           new Map({
             path: new List(['persona', 'import']),
-            pathMatcher: path => (
-              path.size > 1 &&
-              path.get(0) === 'persona' &&
-              (
-                path.get(1).indexOf('statement') !== 0 ||
-                path.get(1) === 'statement.actor.account.homePage'
-              )
-            ),
+            pathMatcher: (path) => {
+              console.log('001');
+              const out = (
+                path.size > 1 &&
+                path.get(0) === 'persona' &&
+                (
+                  path.get(1).indexOf('statement') !== 0 ||
+                  path.get(1) === 'statement.actor.account.homePage'
+                )
+              );
+              return out;
+            },
             getQuery: (basePath, value) => {
+              console.log('002');
               const query = new Map({ key: basePath, value: value.get('value') });
               return new Map({
                 'person._id': new Map({ $personaIdent: query })
               });
             },
-            getModel: (basePath, query) => new Map({
-              value: query
-                .get('person._id', new Map())
-                .get('$personaIdent', new Map())
-                .get('value')
-            }),
+            getModel: (basePath, query) => {
+              console.log('003');
+              return new Map({
+                value: query
+                  .get('person._id', new Map())
+                  .get('$personaIdent', new Map())
+                  .get('value')
+              });
+            },
           }),
         ]),
       },

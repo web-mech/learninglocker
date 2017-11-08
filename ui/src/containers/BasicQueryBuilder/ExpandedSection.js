@@ -10,11 +10,13 @@ import DiscreteCriteria from './Discrete/Criteria';
 import ContinuousCriteria from './Continuous/Criteria';
 import RangeCriteria from './Range/Criteria';
 import BooleanCriteria from './Boolean/Criteria';
+import PersonaAttributesCriteria from './PersonaAttributes/Criteria';
 import Sections from './Sections';
 import styles from './styles.css';
 
 export const queryBuilderCacheFilterGenerator = ({ section }) => {
   let query;
+  console.log('501 queryBuilderCacheFilterGenerator -------------');
   if (section.get('childGenerators', false)) {
     const childGenerators = section.get('childGenerators');
 
@@ -104,7 +106,19 @@ class ExpandedSection extends Component {
     onDeleteCriterion={this.props.onDeleteCriterion} />
     )
 
+  renderPersonaAttributesCriteria = () => {
+    console.log('401');
+    return (<PersonaAttributesCriteria
+      section={this.props.section}
+      criteria={this.props.sectionCriteria}
+      onCriteriaChange={this.props.onCriteriaChange}
+      onAddCriterion={this.props.onAddCriterion}
+      onDeleteCriterion={this.props.onDeleteCriterion} />
+    );
+  }
+
   renderDiscreteCriteria = () => {
+    console.log('402');
     const out = (
       <DiscreteCriteria
         section={this.props.section}
@@ -119,10 +133,14 @@ class ExpandedSection extends Component {
   renderCriteria = () => {
     const ops = this.props.section.get('operators');
 
+    console.log('403', ops);
+    console.log('403.1', this.props.section);
+
     switch (ops) {
       case operators.CONTINUOUS: return this.renderContinuousCriteria();
       case operators.RANGE: return this.renderRangeCriteria();
       case operators.BOOLEAN: return this.renderBooleanCriteria();
+      case operators.PERSONA_ATTRIBUTES: return this.renderPersonaAttributesCriteria();
       default: return this.renderDiscreteCriteria();
     }
   };

@@ -38,16 +38,18 @@ class QueryBuilderSections extends Component {
 
   getSections = () => this.props.sections;
 
-  render = () => (
-    <Sections
-      className={styles.topLevel}
-      sections={this.getSections()}
-      criteria={this.props.criteria}
-      onCriteriaChange={this.props.onCriteriaChange}
-      onSectionsChange={this.changeSections}
-      onAddCriterion={this.props.onAddCriterion}
-      onDeleteCriterion={this.props.onDeleteCriterion} />
-  );
+  render = () => {
+    return (
+      <Sections
+        className={styles.topLevel}
+        sections={this.getSections()}
+        criteria={this.props.criteria}
+        onCriteriaChange={this.props.onCriteriaChange}
+        onSectionsChange={this.changeSections}
+        onAddCriterion={this.props.onAddCriterion}
+        onDeleteCriterion={this.props.onDeleteCriterion} />
+    );
+  };
 }
 
 export default compose(
