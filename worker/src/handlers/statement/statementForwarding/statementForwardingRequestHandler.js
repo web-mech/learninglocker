@@ -51,7 +51,6 @@ const sendRequest = async (statement, statementForwarding) => {
 
   const response = await request;
   if (!(response.status >= 200 && response.status < 400)) {
-    console.trace();
     console.errror(statement);
     throw new ForwardingRequestError(
       `Status code was invalid: (${response.status})`,
