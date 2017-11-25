@@ -36,6 +36,7 @@ const sendRequest = async (statement, statementForwarding) => {
   const statementContent = JSON.stringify(statement);
 
   const headers = generateHeaders(statementContent, statementForwarding);
+  
 
   const request = popsicle.request({
     method: 'POST',
@@ -50,6 +51,8 @@ const sendRequest = async (statement, statementForwarding) => {
 
   const response = await request;
   if (!(response.status >= 200 && response.status < 400)) {
+    console.trace();
+    console.errror(statement);
     throw new ForwardingRequestError(
       `Status code was invalid: (${response.status})`,
       response.body,
